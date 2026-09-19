@@ -1,0 +1,64 @@
+/* ==========================================================================
+   SolarEye — Simulator & Hardware Controls Styles
+   ========================================================================== */
+
+/* Glass Modal Overlay */
+.glass-modal .modal-content {
+    background: rgba(18, 18, 22, 0.88) !important;
+    backdrop-filter: blur(28px) !important;
+    -webkit-backdrop-filter: blur(28px) !important;
+    border: 1px solid var(--solar-border-glass) !important;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6) !important;
+    border-radius: 24px !important;
+}
+
+[data-bs-theme="light"] .glass-modal .modal-content {
+    background: rgba(255, 255, 255, 0.92) !important;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15) !important;
+}
+
+.border-glass {
+    border-color: var(--solar-border-glass) !important;
+}
+
+/* Glass Dropdown Menu */
+.glass-dropdown {
+    background: var(--solar-surface-glass) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid var(--solar-border-glass) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35) !important;
+    padding: 0.5rem !important;
+}
+
+.glass-dropdown .dropdown-item {
+    color: var(--solar-text-primary) !important;
+    border-radius: 8px !important;
+    font-size: 0.85rem !important;
+    padding: 0.5rem 0.8rem !important;
+    transition: all 0.15s ease !important;
+}
+
+.glass-dropdown .dropdown-item:hover {
+    background: rgba(249, 87, 22, 0.15) !important;
+    color: var(--solar-primary) !important;
+}
+
+.preset-btn {
+    cursor: pointer;
+}
+
+/* Button Warning Glass */
+.btn-glass-warning {
+    background: rgba(245, 158, 11, 0.15);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    color: var(--solar-secondary);
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.btn-glass-warning:hover {
+    background: var(--solar-secondary);
+    color: #FFFFFF;
+}

@@ -1,0 +1,74 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: SolarEye
+
+  # ── H2 In-Memory DataSource ──────────────────────────────────
+  datasource:
+    url: jdbc:h2:mem:solar_monitoring;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MySQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  # ── JPA / Hibernate ───────────────────────────────────────────
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+  # ── Jackson ───────────────────────────────────────────────────
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: UTC
+    serialization:
+      write-dates-as-timestamps: false
+
+  # ── SQL Init ──────────────────────────────────────────────────
+  sql:
+    init:
+      mode: never
+
+# ── Swagger / OpenAPI ─────────────────────────────────────────────
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+    display-request-duration: true
+
+# ── SolarEye Custom Config ────────────────────────────────────────
+solareye:
+  simulation:
+    enabled: true
+    interval-ms: 5000
+  alerts:
+    high-temp-red: 50.0
+    high-temp-yellow: 45.0
+    low-power-threshold: 2.0
+    low-power-light-min: 500
+    offline-warning-seconds: 30
+    offline-critical-seconds: 60
+  predictive:
+    window-size: 20
+    voltage-fluctuation-threshold: 3.0
+    power-drop-percentage: 20.0
+
+# ── Logging ───────────────────────────────────────────────────────
+logging:
+  level:
+    com.solareye: INFO
+    org.hibernate.SQL: WARN
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"

@@ -1,0 +1,77 @@
+/* ==========================================================================
+   SolarEye — Predictive Maintenance & AI Diagnostics Styles
+   ========================================================================== */
+
+.diagnostic-rule-card {
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid var(--solar-border-glass);
+}
+
+.diagnostic-rule-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(249, 87, 22, 0.35);
+}
+
+.diagnostic-rule-card.state-warning {
+    border-color: rgba(245, 158, 11, 0.4) !important;
+    background: linear-gradient(145deg, rgba(245, 158, 11, 0.08) 0%, var(--solar-subcard-glass) 80%);
+}
+
+.diagnostic-rule-card.state-critical {
+    border-color: rgba(239, 68, 68, 0.5) !important;
+    background: linear-gradient(145deg, rgba(239, 68, 68, 0.12) 0%, var(--solar-subcard-glass) 80%);
+}
+
+.diag-icon-box {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.diag-desc {
+    line-height: 1.4;
+}
+
+/* Actionable Prescription Cards */
+.prescription-item {
+    background: var(--solar-subcard-glass);
+    border: 1px solid var(--solar-border-glass);
+    border-radius: 12px;
+    padding: 0.85rem 1rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.2s ease;
+}
+
+.prescription-item:hover {
+    border-color: var(--solar-primary);
+    transform: translateX(4px);
+}
+
+.prescription-priority-high {
+    border-left: 4px solid var(--solar-danger) !important;
+}
+
+.prescription-priority-medium {
+    border-left: 4px solid var(--solar-warning) !important;
+}
+
+.prescription-priority-low {
+    border-left: 4px solid var(--solar-info) !important;
+}
+
+.confidence-chip {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.2rem 0.5rem;
+    border-radius: 50px;
+    background: rgba(0, 240, 255, 0.15);
+    color: var(--solar-accent);
+    border: 1px solid rgba(0, 240, 255, 0.3);
+}

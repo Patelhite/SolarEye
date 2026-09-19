@@ -1,0 +1,76 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: SolarEye
+
+  # ── MySQL DataSource ──────────────────────────────────────────
+  datasource:
+    url: jdbc:mysql://localhost:3306/solar_monitoring?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 300000
+      connection-timeout: 20000
+
+  # ── JPA / Hibernate ───────────────────────────────────────────
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+
+  # ── Jackson ───────────────────────────────────────────────────
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: UTC
+    serialization:
+      write-dates-as-timestamps: false
+
+  # ── SQL Init ──────────────────────────────────────────────────
+  sql:
+    init:
+      mode: never
+
+# ── Swagger / OpenAPI ─────────────────────────────────────────────
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+    display-request-duration: true
+
+# ── SolarEye Custom Config ────────────────────────────────────────
+solareye:
+  simulation:
+    enabled: true
+    interval-ms: 5000
+  alerts:
+    high-temp-red: 50.0
+    high-temp-yellow: 45.0
+    low-power-threshold: 2.0
+    low-power-light-min: 500
+    offline-warning-seconds: 30
+    offline-critical-seconds: 60
+  predictive:
+    window-size: 20
+    voltage-fluctuation-threshold: 3.0
+    power-drop-percentage: 20.0
+
+# ── Logging ───────────────────────────────────────────────────────
+logging:
+  level:
+    com.solareye: INFO
+    org.hibernate.SQL: WARN
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"

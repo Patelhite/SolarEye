@@ -1,0 +1,135 @@
+/* ==========================================================================
+   SolarEye — Alert Feed & Incident Management Styles
+   ========================================================================== */
+
+/* Critical Banner at Top */
+.alert-banner-glass {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.18) 0%, var(--solar-surface-glass) 80%);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 30px rgba(239, 68, 68, 0.25);
+    border: 1px solid rgba(239, 68, 68, 0.5);
+}
+
+.critical-pulse {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(239, 68, 68, 0.2);
+    color: var(--solar-danger);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    animation: criticalBlink 1.5s infinite ease-in-out;
+}
+
+@keyframes criticalBlink {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
+    50% { box-shadow: 0 0 0 12px rgba(239, 68, 68, 0); }
+}
+
+.btn-critical-action {
+    background: var(--solar-danger);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    padding: 0.4rem 1rem;
+    transition: all 0.2s ease;
+}
+
+.btn-critical-action:hover {
+    background: #DC2626;
+    transform: translateY(-1px);
+}
+
+.btn-glass-close {
+    background: transparent;
+    border: none;
+    color: var(--solar-text-secondary);
+    font-size: 1rem;
+    padding: 0.4rem;
+}
+
+/* Alert Filter Buttons */
+.btn-alert-filter {
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.65rem;
+}
+
+.btn-alert-filter.active {
+    background: var(--solar-subcard-glass);
+    border-color: var(--solar-primary);
+    color: var(--solar-primary);
+}
+
+/* Alert Card in List */
+.alert-item-card {
+    background: var(--solar-subcard-glass);
+    border: 1px solid var(--solar-border-glass);
+    border-radius: 14px;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    transition: all 0.25s ease;
+}
+
+.alert-item-card:hover {
+    transform: translateX(4px);
+}
+
+.alert-item-card.border-red {
+    border-left: 4px solid var(--solar-danger) !important;
+}
+
+.alert-item-card.border-yellow {
+    border-left: 4px solid var(--solar-warning) !important;
+}
+
+.alert-item-card.border-green {
+    border-left: 4px solid var(--solar-success) !important;
+}
+
+.btn-resolve-alert {
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: var(--solar-success);
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.3rem 0.65rem;
+    transition: all 0.2s ease;
+}
+
+.btn-resolve-alert:hover {
+    background: var(--solar-success);
+    color: #FFFFFF;
+}
+
+/* Alert Severity Badges */
+.badge-severity-red {
+    background: rgba(239, 68, 68, 0.2);
+    color: #F87171;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.badge-severity-yellow {
+    background: rgba(245, 158, 11, 0.2);
+    color: #FBBF24;
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+/* Toast Styling */
+.toast-glass {
+    background: rgba(18, 18, 20, 0.92) !important;
+    backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #FFFFFF !important;
+    border-radius: 14px !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5) !important;
+}

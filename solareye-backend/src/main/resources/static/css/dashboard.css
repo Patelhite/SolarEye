@@ -1,0 +1,176 @@
+/* ==========================================================================
+   SolarEye — Dashboard Executive Metrics & Layout Styles
+   ========================================================================== */
+
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--solar-text-primary);
+    letter-spacing: -0.02em;
+}
+
+.bg-glass-live {
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: var(--solar-success);
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 50px;
+    padding: 0.35rem 0.65rem;
+}
+
+/* Metric Cards */
+.metric-card {
+    padding: 1.35rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.metric-card:hover {
+    transform: translateY(-3px);
+}
+
+.metric-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--solar-text-secondary);
+    font-weight: 600;
+}
+
+.metric-icon-badge {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    background: var(--solar-subcard-glass);
+    border: 1px solid var(--solar-border-glass);
+}
+
+.metric-value {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--solar-text-primary);
+    letter-spacing: -0.03em;
+}
+
+.metric-unit {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--solar-text-muted);
+}
+
+.metric-subtext {
+    font-size: 0.8rem;
+    color: var(--solar-text-secondary);
+}
+
+/* Glass Progress Bars */
+.progress-glass {
+    height: 5px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar-solar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--solar-primary) 0%, var(--solar-secondary) 100%);
+    box-shadow: 0 0 8px var(--solar-primary);
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-bar-amber {
+    height: 100%;
+    background: var(--solar-secondary);
+    box-shadow: 0 0 8px var(--solar-secondary);
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-bar-cyan {
+    height: 100%;
+    background: var(--solar-accent);
+    box-shadow: 0 0 8px var(--solar-accent);
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-bar-purple {
+    height: 100%;
+    background: var(--solar-purple);
+    box-shadow: 0 0 8px var(--solar-purple);
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-bar-temp {
+    height: 100%;
+    background: linear-gradient(90deg, #3B82F6 0%, #F59E0B 60%, #EF4444 100%);
+    transition: width 0.6s ease;
+}
+
+.progress-bar-info {
+    height: 100%;
+    background: #06B6D4;
+    transition: width 0.6s ease;
+}
+
+.progress-bar-warning {
+    height: 100%;
+    background: #EAB308;
+    transition: width 0.6s ease;
+}
+
+.progress-bar-health {
+    height: 100%;
+    transition: width 0.6s ease, background-color 0.4s ease;
+}
+
+/* Card Glow Themes */
+.card-glow-primary {
+    border-color: rgba(249, 87, 22, 0.25);
+    background: linear-gradient(145deg, rgba(249, 87, 22, 0.08) 0%, var(--solar-surface-glass) 60%);
+}
+
+.card-glow-secondary {
+    border-color: rgba(245, 158, 11, 0.25);
+    background: linear-gradient(145deg, rgba(245, 158, 11, 0.08) 0%, var(--solar-surface-glass) 60%);
+}
+
+.card-glow-health {
+    border-color: rgba(16, 185, 129, 0.25);
+    background: linear-gradient(145deg, rgba(16, 185, 129, 0.08) 0%, var(--solar-surface-glass) 60%);
+}
+
+/* Digital Clock Styles */
+.clock-time {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--solar-text-primary);
+    line-height: 1.2;
+    letter-spacing: 0.05em;
+}
+
+.clock-date {
+    font-size: 0.65rem;
+    color: var(--solar-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* User Avatar */
+.avatar-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--solar-primary) 0%, var(--solar-secondary) 100%);
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+}

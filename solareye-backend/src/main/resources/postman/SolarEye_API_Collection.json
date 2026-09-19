@@ -1,0 +1,308 @@
+{
+  "info": {
+    "name": "SolarEye API Collection",
+    "description": "Complete API collection for the SolarEye Smart Solar Monitoring & Predictive Maintenance System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@solareye.com\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Login (User)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@solareye.com\",\n  \"password\": \"user123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Get Current User",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "me"]
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/logout",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "logout"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Solar Data",
+      "item": [
+        {
+          "name": "Save Sensor Data",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"voltage\": 14.5,\n  \"current\": 2.3,\n  \"temperature\": 35.2,\n  \"humidity\": 55.0,\n  \"lightIntensity\": 780.0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/solar/data",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "solar", "data"]
+            }
+          }
+        },
+        {
+          "name": "Get Latest Data",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/solar/latest",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "solar", "latest"]
+            }
+          }
+        },
+        {
+          "name": "Get History (24h)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/solar/history?hours=24",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "solar", "history"],
+              "query": [
+                { "key": "hours", "value": "24" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Chart Data (1h)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/solar/charts?hours=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "solar", "charts"],
+              "query": [
+                { "key": "hours", "value": "1" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Dashboard Summary",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/solar/dashboard",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "solar", "dashboard"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Alerts",
+      "item": [
+        {
+          "name": "Get All Alerts",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/alerts",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "alerts"]
+            }
+          }
+        },
+        {
+          "name": "Get Active Alerts",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/alerts?status=ACTIVE",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "alerts"],
+              "query": [
+                { "key": "status", "value": "ACTIVE" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Recent Alerts (24h)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/alerts/recent?hours=24",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "alerts", "recent"],
+              "query": [
+                { "key": "hours", "value": "24" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Resolve Alert",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{baseUrl}}/api/alerts/1/resolve",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "alerts", "1", "resolve"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Predictive Maintenance",
+      "item": [
+        {
+          "name": "Get All Predictions",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/predictions",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "predictions"]
+            }
+          }
+        },
+        {
+          "name": "Get Recent Predictions (24h)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/predictions/recent?hours=24",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "predictions", "recent"],
+              "query": [
+                { "key": "hours", "value": "24" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Maintenance Status",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/predictions/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "predictions", "status"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Analytics",
+      "item": [
+        {
+          "name": "Get Analytics Summary",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/analytics/summary",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "analytics", "summary"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Simulation",
+      "item": [
+        {
+          "name": "Get Simulation Status",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/simulation/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "simulation", "status"]
+            }
+          }
+        },
+        {
+          "name": "Enable Simulation",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/api/simulation/toggle?enabled=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "simulation", "toggle"],
+              "query": [
+                { "key": "enabled", "value": "true" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Disable Simulation",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/api/simulation/toggle?enabled=false",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "simulation", "toggle"],
+              "query": [
+                { "key": "enabled", "value": "false" }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

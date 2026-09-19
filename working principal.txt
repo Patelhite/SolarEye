@@ -1,0 +1,67 @@
+Bhai yehi to hamare project ka main concept hai. Predictive Maintenance ka matlab sensor khud nahi bolega "maintenance karo", balki system data analyze karke recommendation dega.
+
+Example 1: Panel Dusty Ho Gaya
+Light Intensity = 900 (bahut achhi sunlight)
+Temperature = 32°C (normal)
+Expected Power = 18W
+Actual Power = 10W
+
+System sochega:
+
+"Sunlight to achhi hai, temperature bhi normal hai, phir power kam kyu aa rahi hai?"
+
+Result:
+
+⚠ Possible Solar Panel Cleaning Required
+Example 2: Panel Overheating
+Temperature = 60°C
+Power Output continuously decreasing
+
+Result:
+
+⚠ Possible Solar Panel Overheating
+⚠ Maintenance Recommended
+Example 3: Wiring Issue
+Voltage:
+12V
+11V
+13V
+8V
+14V
+7V
+
+Bahut fluctuation.
+
+Result:
+
+⚠ Electrical Inspection Recommended
+Hamare Project Mein Initially
+
+Abhi humare paas:
+
+INA219
+DHT11
+LDR
+
+hi hain.
+
+To maintenance logic:
+
+LDR → Sunlight check
+INA219 → Voltage + Current
+Power = V × I
+DHT11 → Temperature
+
+Fir:
+
+High Light + Low Power
+            ↓
+Panel Dust / Cleaning Required
+
+High Temp + Power Drop
+            ↓
+Overheating
+
+Voltage Fluctuation
+            ↓
+Wiring Issue
