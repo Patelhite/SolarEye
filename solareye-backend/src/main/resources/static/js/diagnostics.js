@@ -1,5 +1,5 @@
 /**
- * SolarEye — AI Predictive Maintenance & Diagnostics Controller
+ * SolarEye — Executive Predictive Maintenance Controller
  */
 
 const Diagnostics = {
@@ -14,7 +14,7 @@ const Diagnostics = {
                 Api.getPredictions().catch(() => null)
             ]);
 
-            const overallStatus = (statusRes && statusRes.data) ? statusRes.data : 'OK';
+            const overallStatus = (statusRes && statusRes.data) ? statusRes.data : 'HEALTHY';
             this.updateOverallBadge(overallStatus);
 
             const predictions = (predictionsRes && predictionsRes.data) ? predictionsRes.data : [];
@@ -29,84 +29,58 @@ const Diagnostics = {
     },
 
     updateOverallBadge(status) {
-        const dot = document.getElementById('predictiveStatusDot');
-        const label = document.getElementById('predictiveOverallStatus');
+        const badge = document.getElementById('predictiveOverallStatus');
+        if (!badge) return;
 
-        if (!dot || !label) return;
-
-        label.textContent = status;
+        badge.textContent = status;
 
         if (status === 'CRITICAL') {
-            dot.className = 'status-dot bg-danger';
-            label.className = 'status-label text-danger fw-bold';
+            badge.className = 'badge bg-danger text-white px-3 py-1 font-outfit';
         } else if (status === 'WARNING') {
-            dot.className = 'status-dot bg-warning';
-            label.className = 'status-label text-warning fw-bold';
+            badge.className = 'badge bg-warning text-dark px-3 py-1 font-outfit';
         } else if (status === 'ATTENTION') {
-            dot.className = 'status-dot bg-info';
-            label.className = 'status-label text-info fw-bold';
+            badge.className = 'badge bg-info text-white px-3 py-1 font-outfit';
         } else {
-            dot.className = 'status-dot dot-live';
-            label.className = 'status-label text-success fw-bold';
+            badge.className = 'badge bg-success-subtle text-success px-3 py-1 font-outfit';
         }
     },
 
-    /**
-     * Evaluates live telemetry values against physical solar domain rules
-     */
     evaluateLiveTelemetryRules(telemetry) {
         if (!telemetry) return;
 
         const { voltage, current, power, temperature, lightIntensity } = telemetry;
 
-        // 1. Dust & Soiling Detection Rule
-        // High Light (>500 Lux) but Very Low Current/Power (<2W)
-        const cardSoiling = document.getElementById('ruleDustSoiling');
+        // 1. Dust Status
         const badgeSoiling = document.getElementById('badgeSoiling');
-        const descSoiling = document.getElementById('descSoiling');
-
         if (lightIntensity > 500 && power < 2.0 && current < 0.5) {
-            cardSoiling?.classList.add('state-warning');
-            if (badgeSoiling) { badgeSoiling.textContent = 'DUST DETECTED'; badgeSoiling.className = 'badge bg-warning text-dark'; }
-            if (descSoiling) descSoiling.textContent = `High solar irradiance (${Math.round(lightIntensity)} Lux) but low output (${power}W). Surface cleaning required.`;
+            if (badgeSoiling) { badgeSoiling.textContent = 'Warning'; badgeSoiling.className = 'badge bg-warning text-dark'; }
         } else {
-            cardSoiling?.classList.remove('state-warning');
-            if (badgeSoiling) { badgeSoiling.textContent = 'CLEAN'; badgeSoiling.className = 'badge bg-success-subtle text-success'; }
-            if (descSoiling) descSoiling.textContent = 'Panel surface transparency is optimal. Irradiance-to-power conversion is nominal.';
+            if (badgeSoiling) { badgeSoiling.textContent = 'Clean'; badgeSoiling.className = 'badge bg-success-subtle text-success'; }
         }
 
-        // 2. Thermal Hotspot / Fault Rule
-        const cardThermal = document.getElementById('ruleThermalFault');
+        // 2. Hotspot / Thermal Status
         const badgeThermal = document.getElementById('badgeThermal');
-        const descThermal = document.getElementById('descThermal');
-
         if (temperature >= 50.0) {
-            cardThermal?.classList.add('state-critical');
-            if (badgeThermal) { badgeThermal.textContent = 'OVERHEATING'; badgeThermal.className = 'badge bg-danger'; }
-            if (descThermal) descThermal.textContent = `Dangerous panel temperature (${temperature}°C). Risk of cell degradation and thermal runaway.`;
+            if (badgeThermal) { badgeThermal.textContent = 'Overheat'; badgeThermal.className = 'badge bg-danger'; }
         } else if (temperature >= 45.0) {
-            cardThermal?.classList.add('state-warning');
-            if (badgeThermal) { badgeThermal.textContent = 'WARM (DERATING)'; badgeThermal.className = 'badge bg-warning text-dark'; }
-            if (descThermal) descThermal.textContent = `Elevated temperature (${temperature}°C). Thermal efficiency derating active (-10%).`;
+            if (badgeThermal) { badgeThermal.textContent = 'Alert'; badgeThermal.className = 'badge bg-warning text-dark'; }
         } else {
-            cardThermal?.classList.remove('state-critical', 'state-warning');
-            if (badgeThermal) { badgeThermal.textContent = 'NORMAL'; badgeThermal.className = 'badge bg-success-subtle text-success'; }
-            if (descThermal) descThermal.textContent = `Panel temperature (${temperature}°C) within standard operating range (<45°C).`;
+            if (badgeThermal) { badgeThermal.textContent = 'Normal'; badgeThermal.className = 'badge bg-success-subtle text-success'; }
         }
 
-        // 3. Voltage Degradation / Fluctuation Rule
-        const cardVoltage = document.getElementById('ruleVoltageDegradation');
+        // 3. Voltage Variance Status
         const badgeVoltage = document.getElementById('badgeVoltageDegradation');
-        const descVoltage = document.getElementById('descVoltageDegradation');
-
         if (voltage < 5.0 && lightIntensity > 300) {
-            cardVoltage?.classList.add('state-critical');
-            if (badgeVoltage) { badgeVoltage.textContent = 'STRING FAULT'; badgeVoltage.className = 'badge bg-danger'; }
-            if (descVoltage) descVoltage.textContent = `Abnormal voltage drop (${voltage}V) during daylight. Check bypass diodes and wiring.`;
+            if (badgeVoltage) { badgeVoltage.textContent = 'Unstable'; badgeVoltage.className = 'badge bg-danger'; }
         } else {
-            cardVoltage?.classList.remove('state-critical');
-            if (badgeVoltage) { badgeVoltage.textContent = 'STABLE'; badgeVoltage.className = 'badge bg-success-subtle text-success'; }
-            if (descVoltage) descVoltage.textContent = `String voltage variance is stable (${voltage}V). Electrical connections are tight.`;
+            if (badgeVoltage) { badgeVoltage.textContent = 'Stable'; badgeVoltage.className = 'badge bg-success-subtle text-success'; }
+        }
+
+        // 4. Sensor Stream Status
+        const badgeSensor = document.getElementById('badgeSensorIntegrity');
+        if (badgeSensor) {
+            badgeSensor.textContent = 'Online';
+            badgeSensor.className = 'badge bg-success-subtle text-success';
         }
     },
 
@@ -116,32 +90,20 @@ const Diagnostics = {
 
         if (!predictions || predictions.length === 0) {
             container.innerHTML = `
-                <div class="p-3 text-center text-muted small" id="noPredictionsPlaceholder">
-                    <i class="fa-solid fa-circle-check text-success fa-2x mb-2 d-block"></i>
-                    All solar sub-systems are operating at maximum yield efficiency. No corrective technician intervention required.
-                </div>
+                <span class="action-tag text-success"><i class="fa-solid fa-circle-check me-1"></i> All Sub-systems Nominal</span>
             `;
             return;
         }
 
         container.innerHTML = predictions.map(p => {
-            const confidence = p.confidence ? `${Math.round(p.confidence)}%` : '85%';
-            const priorityClass = p.status === 'CRITICAL' ? 'prescription-priority-high' 
-                                : (p.status === 'WARNING' ? 'prescription-priority-medium' : 'prescription-priority-low');
+            const isCritical = p.status === 'CRITICAL';
+            const tagClass = isCritical ? 'action-tag-danger' : 'action-tag-warning';
+            const icon = isCritical ? 'fa-triangle-exclamation' : 'fa-wrench';
 
             return `
-                <div class="prescription-item ${priorityClass}">
-                    <div>
-                        <div class="d-flex align-items-center gap-2 mb-1">
-                            <span class="fw-bold font-outfit text-light">${this.escapeHtml(p.predictionType || 'MAINTENANCE_ACTION')}</span>
-                            <span class="confidence-chip">Confidence ${confidence}</span>
-                        </div>
-                        <p class="small text-light-emphasis mb-0">${this.escapeHtml(p.recommendation || p.reason)}</p>
-                    </div>
-                    <button class="btn btn-sm btn-glass ms-3" onclick="AlertsManager.showToast('Work order generated for solar technician.', 'success')">
-                        <i class="fa-solid fa-screwdriver-wrench me-1 text-solar-orange"></i> Action
-                    </button>
-                </div>
+                <span class="action-tag ${tagClass}">
+                    <i class="fa-solid ${icon} me-1"></i> ${this.escapeHtml(p.recommendation || p.predictionType || 'Inspect System')}
+                </span>
             `;
         }).join('');
     },

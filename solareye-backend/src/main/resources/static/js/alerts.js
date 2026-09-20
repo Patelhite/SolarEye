@@ -1,27 +1,14 @@
 /**
- * SolarEye — Real-Time Alert Manager & Incident Resolution Controller
+ * SolarEye — Streamlined Alert Manager
  */
 
 const AlertsManager = {
-    currentFilter: 'ALL',
-
     init() {
         this.bindEvents();
         this.fetchAlerts();
     },
 
     bindEvents() {
-        // Filter tabs
-        const filterBtns = document.querySelectorAll('.btn-alert-filter');
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                this.currentFilter = btn.getAttribute('data-filter') || 'ALL';
-                this.renderAlertList(AppState.activeAlerts);
-            });
-        });
-
         // Banner dismiss
         document.getElementById('btnDismissBanner')?.addEventListener('click', () => {
             document.getElementById('criticalAlertBanner')?.classList.add('d-none');
@@ -52,23 +39,17 @@ const AlertsManager = {
 
     updateAlertCounts(alerts) {
         const total = alerts.length;
-        const redCount = alerts.filter(a => a.severity === 'RED').length;
-        const yellowCount = alerts.filter(a => a.severity === 'YELLOW').length;
-
         const countBadge = document.getElementById('activeAlertCountBadge');
-        const elAll = document.getElementById('countAllAlerts');
-        const elRed = document.getElementById('countRedAlerts');
-        const elYellow = document.getElementById('countYellowAlerts');
+        const pillAlerts = document.getElementById('pillActiveAlerts');
 
         if (countBadge) {
             countBadge.textContent = `${total} Active`;
-            countBadge.className = total > 0 
-                ? (redCount > 0 ? 'badge bg-danger rounded-pill px-2 py-1' : 'badge bg-warning text-dark rounded-pill px-2 py-1') 
-                : 'badge bg-success rounded-pill px-2 py-1';
+            countBadge.className = total > 0 ? 'badge bg-danger rounded-pill px-2 py-1' : 'badge bg-success rounded-pill px-2 py-1';
         }
-        if (elAll) elAll.textContent = total;
-        if (elRed) elRed.textContent = redCount;
-        if (elYellow) elYellow.textContent = yellowCount;
+        if (pillAlerts) {
+            pillAlerts.textContent = total;
+            pillAlerts.className = total > 0 ? 'font-outfit text-danger' : 'font-outfit text-success';
+        }
     },
 
     updateCriticalBanner(alerts) {
@@ -81,8 +62,8 @@ const AlertsManager = {
             banner.classList.remove('d-none');
             const title = document.getElementById('bannerAlertTitle');
             const msg = document.getElementById('bannerAlertMsg');
-            if (title) title.textContent = `🚨 ${firstRed.alertType || 'CRITICAL SYSTEM ANOMALY'}`;
-            if (msg) msg.textContent = firstRed.message || 'System anomaly detected in live telemetry.';
+            if (title) title.textContent = `🚨 ${firstRed.alertType || 'CRITICAL INCIDENT'}`;
+            if (msg) msg.textContent = firstRed.message || 'System anomaly detected.';
         } else {
             banner.classList.add('d-none');
         }
@@ -90,47 +71,33 @@ const AlertsManager = {
 
     renderAlertList(alerts) {
         const container = document.getElementById('alertFeedContainer');
-        const placeholder = document.getElementById('noAlertsPlaceholder');
-
         if (!container) return;
 
-        let filtered = alerts;
-        if (this.currentFilter === 'RED') filtered = alerts.filter(a => a.severity === 'RED');
-        if (this.currentFilter === 'YELLOW') filtered = alerts.filter(a => a.severity === 'YELLOW');
-
-        if (!filtered || filtered.length === 0) {
+        if (!alerts || alerts.length === 0) {
             container.innerHTML = `
-                <div class="p-4 text-center text-muted" id="noAlertsPlaceholder">
-                    <i class="fa-solid fa-shield-check text-success fa-2x mb-2 d-block"></i>
-                    <span class="fw-semibold">No active alerts matching filter.</span>
-                    <p class="small text-muted mb-0">All telemetry values are in normal operational range.</p>
+                <div class="p-3 text-center text-muted small" id="noAlertsPlaceholder">
+                    <i class="fa-solid fa-shield-check text-success fa-lg me-1"></i> No active incidents.
                 </div>
             `;
             return;
         }
 
-        container.innerHTML = filtered.map(alert => {
+        container.innerHTML = alerts.map(alert => {
             const isRed = alert.severity === 'RED';
             const borderClass = isRed ? 'border-red' : 'border-yellow';
-            const badgeClass = isRed ? 'badge-severity-red' : 'badge-severity-yellow';
             const icon = isRed ? 'fa-triangle-exclamation text-danger' : 'fa-circle-exclamation text-warning';
+            const timeOnly = alert.createdAt ? alert.createdAt.split(' ')[1] || alert.createdAt : 'Now';
 
             return `
                 <div class="alert-item-card ${borderClass}" id="alert-item-${alert.id}">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                        <div class="d-flex align-items-center gap-2">
-                            <i class="fa-solid ${icon}"></i>
-                            <span class="fw-bold text-light font-outfit">${this.escapeHtml(alert.alertType || 'ALERT')}</span>
-                        </div>
-                        <span class="badge ${badgeClass} px-2 py-1">${alert.severity || 'WARN'}</span>
+                    <div class="d-flex align-items-center gap-2 text-truncate me-2">
+                        <i class="fa-solid ${icon} small"></i>
+                        <span class="small fw-semibold text-light text-truncate">${this.escapeHtml(alert.alertType || 'Alert')}</span>
+                        <span class="micro-label text-muted">${timeOnly}</span>
                     </div>
-                    <p class="small text-light-emphasis mb-2">${this.escapeHtml(alert.message)}</p>
-                    <div class="d-flex justify-content-between align-items-center pt-2 border-top border-glass">
-                        <span class="small text-muted"><i class="fa-regular fa-clock me-1"></i> ${alert.createdAt || 'Just now'}</span>
-                        <button class="btn btn-resolve-alert" onclick="AlertsManager.resolveAlert(${alert.id})">
-                            <i class="fa-solid fa-check me-1"></i> Resolve
-                        </button>
-                    </div>
+                    <button class="btn btn-resolve-alert flex-shrink-0" onclick="AlertsManager.resolveAlert(${alert.id})">
+                        <i class="fa-solid fa-check me-1"></i> Resolve
+                    </button>
                 </div>
             `;
         }).join('');
@@ -140,12 +107,11 @@ const AlertsManager = {
         try {
             const res = await Api.resolveAlert(id);
             if (res.success) {
-                // Optimistic UI update
                 AppState.activeAlerts = (AppState.activeAlerts || []).filter(a => a.id !== id);
                 this.updateAlertCounts(AppState.activeAlerts);
                 this.renderAlertList(AppState.activeAlerts);
                 this.updateCriticalBanner(AppState.activeAlerts);
-                this.showToast(`Alert #${id} successfully resolved.`, 'success');
+                this.showToast(`Incident #${id} resolved.`, 'success');
             }
         } catch (e) {
             this.showToast(e.message || 'Failed to resolve alert.', 'danger');
@@ -161,13 +127,13 @@ const AlertsManager = {
                    : (type === 'danger' ? 'fa-triangle-exclamation text-danger' : 'fa-circle-info text-solar-cyan');
 
         const toastHtml = `
-            <div class="toast toast-glass align-items-center show mb-2" id="${id}" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast toast-glass align-items-center show mb-2" id="${id}" role="alert">
                 <div class="d-flex p-2">
                     <div class="toast-body d-flex align-items-center gap-2">
-                        <i class="fa-solid ${icon} fs-5"></i>
+                        <i class="fa-solid ${icon}"></i>
                         <span>${this.escapeHtml(message)}</span>
                     </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
                 </div>
             </div>
         `;
@@ -176,7 +142,7 @@ const AlertsManager = {
         setTimeout(() => {
             const el = document.getElementById(id);
             if (el) el.remove();
-        }, 4000);
+        }, 3500);
     },
 
     escapeHtml(str) {
